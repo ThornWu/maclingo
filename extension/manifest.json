@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "MacLingo · 麦译 — Mac Chrome 划词翻译",
+  "version": "0.1.1",
+  "description": "为 Mac 打造的 Chrome 划词翻译扩展。选中文字、右键翻译，在当前网页阅读译文。本机处理，无需 API Key。",
+  "minimum_chrome_version": "138",
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "MacLingo · 麦译 · 使用说明",
+    "default_popup": "help.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "short_name": "MacLingo 麦译",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

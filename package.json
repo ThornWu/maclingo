@@ -1,0 +1,17 @@
+{
+  "name": "maclingo",
+  "version": "0.1.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "check": "node --check extension/background.js && node --check extension/content.js",
+    "package": "bash scripts/package.sh"
+  },
+  "license": "MIT",
+  "description": "MacLingo 麦译 — a quiet, on-device Chrome translation extension for Mac",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ThornWu/maclingo.git"
+  }
+}

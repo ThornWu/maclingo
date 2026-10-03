@@ -2,6 +2,7 @@
   if (globalThis.__maclingoInstalled) return;
   globalThis.__maclingoInstalled = true;
   let dismiss = () => {};
+  globalThis.__maclingoShowSelection = text => show(text, false);
   chrome.runtime.onMessage.addListener(message => {
     if (message.type === 'maclingo:show' && typeof message.text === 'string') show(message.text, message.frame);
   });
@@ -12,6 +13,7 @@
     const rect = !fromFrame && selection?.rangeCount ? selection.getRangeAt(0).getBoundingClientRect() : null;
     const previousFocus = document.activeElement;
     const host = document.createElement('div');
+    host.setAttribute('data-maclingo-card', '');
     host.style.cssText = 'all:initial!important;position:fixed!important;z-index:2147483647!important;display:block!important;';
     const shadow = host.attachShadow({ mode: 'closed' });
     const style = document.createElement('style');

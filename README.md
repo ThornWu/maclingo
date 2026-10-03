@@ -3,17 +3,17 @@
 <p align="center">为 Mac 打造的 Chrome 划词翻译扩展<br>Quiet, on-device translation for Chrome on Mac.</p>
 <p align="center"><a href="README.en.md">English</a> · <a href="https://github.com/ThornWu/maclingo/releases/latest">下载安装包</a> · <a href="LICENSE">MIT</a></p>
 
-选中文字，右键「用麦译翻译」，在当前网页的小卡片中阅读译文。
+选中文字，右键「用麦译翻译」，或在 Mac 按 Control + Shift + M，在当前网页的小卡片中阅读译文。快捷键只在 Chrome 内生效，可在 chrome://extensions/shortcuts 修改；iframe 内选词请使用右键菜单。
 
 **MacLingo** 将 Mac 和语言联系起来；**麦译**取 Mac 的谐音，表达随手翻译、继续阅读的轻量体验。
 
 ## 特点
 
 - **留在页面**：译文出现在选区附近，点击空白处或按 Esc 关闭。
-- **主动触发**：只在右键翻译时运行，不自动弹窗、不监听剪贴板。
+- **主动触发**：默认通过右键或快捷键翻译，不监听剪贴板；可在扩展弹窗开启划词自动翻译。
 - **本机翻译**：使用 Chrome Translator API，无需 API Key，扩展不上传选中文字到第三方翻译服务。
 - **便于阅读**：可复制译文、展开原文、切换语言，支持深浅色。
-- **权限克制**：只请求 `contextMenus`、`activeTab`、`scripting` 和 `storage`，不常驻读取所有网站。
+- **权限克制**：只请求 `contextMenus`、`activeTab`、`scripting` 和 `storage`，默认不常驻读取网站；开启划词自动翻译时才请求可选的网页访问权限。
 
 ## 在 Mac 上安装
 
@@ -63,3 +63,5 @@ npm run package
 详情见 [隐私说明](PRIVACY.md)。MacLingo 是独立项目，与 Apple 或 Google 无隶属或背书关系。
 
 接口文档：[右键菜单](https://developer.chrome.com/docs/extensions/reference/api/contextMenus) · [activeTab](https://developer.chrome.com/docs/extensions/develop/concepts/activeTab) · [Translator API](https://developer.chrome.com/docs/ai/translator-api)
+
+划词自动翻译默认关闭，点击工具栏麦译图标可开启。开启后在网页正文中选词自动翻译，输入框及翻译卡片内选词不会触发；关闭后立即停止监听。iframe 内仍使用右键菜单。

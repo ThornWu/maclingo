@@ -7,6 +7,7 @@ function harness({ fail = false } = {}) {
   const events = {}, calls = [];
   const chrome = {
     runtime: { onInstalled: { addListener: fn => events.install = fn }, onMessage: { addListener: fn => events.message = fn } },
+    commands: { onCommand: { addListener: fn => events.command = fn } },
     contextMenus: { removeAll: fn => fn(), create: item => calls.push(['menu', item]), onClicked: { addListener: fn => events.click = fn } },
     scripting: { executeScript: async args => { calls.push(['inject', args]); if (fail) throw Error('restricted'); return [{ documentId: 'doc-1' }]; } },
     tabs: { sendMessage: async (...args) => calls.push(['send', ...args]) },
@@ -51,4 +52,30 @@ test('older injection cannot replace the latest selected text', async () => {
   resolveFirst([{ documentId: 'old' }]); await first;
   assert.equal(calls.filter(x => x[0] === 'send').length, 1);
   assert.equal(calls.find(x => x[0] === 'send')[2].text, 'new');
+});
+
+test('shortcut reads selection then uses the same translation card', async () => {
+  const { events, calls, chrome } = harness();
+  const inject = chrome.scripting.executeScript;
+  chrome.scripting.executeScript = async args => args.func ? [{ result: 'versatile' }] : inject(args);
+  await events.command('translate-selection', { id: 9 });
+  assert.equal(calls.find(x => x[0] === 'send')[2].text, 'versatile');
+});
+test('shortcut with no selection does not inject a card', async () => {
+  const { events, calls, chrome } = harness();
+  chrome.scripting.executeScript = async () => [{ result: '' }];
+  await events.command('translate-selection', { id: 9 });
+  assert.equal(calls.some(x => x[0] === 'send'), false);
+  assert.match(calls.find(x => x[0] === 'title')[1].title, /请先/);
+});
+test('shortcut selection handles input text but excludes passwords', async () => {
+  const { events, chrome } = harness(); let readSelection;
+  chrome.scripting.executeScript = async args => { readSelection = args.func; return [{ result: '' }]; };
+  await events.command('translate-selection', { id: 9 });
+  const read = activeElement => vm.runInNewContext('(' + readSelection.toString() + ')()', {
+    document: { activeElement }, window: { getSelection: () => 'page' }
+  });
+  assert.equal(read({ tagName: 'INPUT', type: 'text', value: 'one two', selectionStart: 4, selectionEnd: 7 }), 'two');
+  assert.equal(read({ tagName: 'INPUT', type: 'password', value: 'secret', selectionStart: 0, selectionEnd: 6 }), '');
+  assert.equal(read(null), 'page');
 });

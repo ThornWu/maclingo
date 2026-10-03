@@ -3,17 +3,17 @@
 <p align="center">Quiet, on-device translation for Chrome on Mac.</p>
 <p align="center"><a href="README.md">简体中文</a> · <a href="https://github.com/ThornWu/maclingo/releases/latest">Download</a> · <a href="LICENSE">MIT License</a></p>
 
-Select text, right-click **用麦译翻译**, and read the translation in a small card on the current page. Click outside or press Esc to dismiss it.
+Select text, right-click **用麦译翻译**, and read the translation in a small card on the current page. On Mac, Control + Shift + M translates selected text in the main page (use the context menu inside iframes). Customize it at chrome://extensions/shortcuts. The shortcut is active only in Chrome. Click outside or press Esc to dismiss it.
 
 MacLingo combines Mac and language; the Chinese name **麦译** (Mài Yì) pairs a phonetic nod to Mac with translation. The current extension interface is in Simplified Chinese.
 
 ## Designed for reading
 
 - Stays on the page, close to the selected text.
-- Runs only when invoked; no automatic popups or clipboard monitoring.
+- Uses the context menu or keyboard shortcut by default; optional automatic selection translation, no clipboard monitoring.
 - Uses Chrome's on-device Translator API, without an API key.
 - Supports language selection, copying, original-text disclosure, and dark mode.
-- Requests only `contextMenus`, `activeTab`, `scripting`, and `storage`; no persistent access to all sites.
+- Requests only `contextMenus`, `activeTab`, `scripting`, and `storage`; optional website access is requested only when automatic selection translation is enabled.
 
 ## Install on Mac
 
@@ -65,3 +65,5 @@ Background tests cover selection-only menus, on-demand injection, document routi
 Issues and pull requests are welcome. Include browser / macOS versions, page type, and reproduction steps. Do not include private selected text. Code and original icon artwork are licensed under [MIT](LICENSE). See [Privacy](PRIVACY.md).
 
 MacLingo is an independent project, unaffiliated with Apple or Google.
+
+Automatic selection translation is off by default. Enable it in the toolbar popup to translate selections in page text. Editable fields and the translation card are excluded. Turning it off stops selection listeners immediately. Use the context menu inside iframes.

@@ -23,10 +23,10 @@
         box-shadow:0 12px 40px #152b2526,0 2px 8px #152b2512; padding:18px;
         font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; text-align:left; }
       header,footer,.languages { display:flex; align-items:center; gap:8px; }
-      header { margin-bottom:14px; } .brand { font-weight:650; flex:1; } .mark { color:#226b61; font-size:19px; }
+      header { margin-bottom:14px; } .brand { font-weight:650; flex:1; } .mark { color:#226b68; font-size:19px; }
       button,select { font:inherit; color:inherit; cursor:pointer; }
       button { border:0; border-radius:6px; padding:5px 9px; background:#edf2ef; }
-      button:hover { background:#e0e9e3; } button:focus-visible,select:focus-visible,summary:focus-visible { outline:2px solid #226b61; outline-offset:3px; }
+      button:hover { background:#e0e9e3; } button:focus-visible,select:focus-visible,summary:focus-visible { outline:2px solid #226b68; outline-offset:3px; }
       .close { background:transparent; font-size:18px; line-height:1; } .languages { font-size:12px; color:#637169; }
       select { max-width:135px; background:transparent; border:1px solid #dce3df; border-radius:5px; padding:3px; }
       .result { font-size:16px; line-height:1.8; white-space:pre-wrap; overflow-wrap:anywhere; margin:15px 0; user-select:text; }
@@ -34,20 +34,20 @@
       details { border-top:1px solid #e6eae7; padding-top:9px; margin-bottom:12px; }
       summary { cursor:pointer; color:#637169; font-size:12px; } .original { font-size:12px; color:#637169; white-space:pre-wrap; overflow-wrap:anywhere; max-height:120px; overflow:auto; }
       footer { justify-content:space-between; } .note { font-size:11px; color:#637169; }
-      .primary { background:#226b61; color:white; } .primary:hover { background:#19574f; }
+      .primary { background:#226b68; color:white; } .primary:hover { background:#1a5450; }
       [hidden] { display:none!important; }
       @media(prefers-color-scheme:dark) {
         .card { background:#242b28; color:#edf2ef; border-color:#44514a; box-shadow:0 12px 40px #0006; }
         button { background:#39473f; } button:hover { background:#485b50; }
         .muted,.note,summary,.original,.languages { color:#adbbb2; } select { border-color:#526359; }
         option { background:#242b28; } details { border-color:#44514a; } .mark { color:#83baa3; } .error { color:#ffa699; }
-        .primary { background:#226b61; } .close { background:transparent; }
+        .primary { background:#226b68; } .close { background:transparent; }
       }
     `;
     const card = document.createElement('section');
     card.className = 'card'; card.setAttribute('role', 'dialog'); card.setAttribute('aria-label', 'MacLingo · 麦译');
     // This template is static. Selected text and model output are only assigned via textContent.
-    card.innerHTML = `<header><svg class="mark" aria-hidden="true" width="24" height="24" viewBox="0 0 128 128"><rect x="4" y="4" width="120" height="120" rx="30" fill="#226b61"/><path d="M30 87V38l34 23 34-23v49" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 61v27" stroke="#a9dec8" stroke-width="8" stroke-linecap="round"/></svg><span class="brand">MacLingo · 麦译</span><button class="close" aria-label="关闭翻译" title="关闭（Esc）">×</button></header>
+    card.innerHTML = `<header><svg class="mark" aria-hidden="true" width="24" height="24" viewBox="0 0 128 128"><rect x="4" y="4" width="120" height="120" rx="30" fill="#226b68"/><path d="M30 87V38l34 23 34-23v49" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 61v27" stroke="#a9dec8" stroke-width="8" stroke-linecap="round"/></svg><span class="brand">MacLingo · 麦译</span><button class="close" aria-label="关闭翻译" title="关闭（Esc）">×</button></header>
       <div class="languages"><select aria-label="原文语言"><option value="auto">自动识别</option><option value="en">英语</option><option value="zh">中文</option><option value="ja">日语</option><option value="ko">韩语</option><option value="fr">法语</option><option value="de">德语</option><option value="es">西班牙语</option></select><span>→</span><select aria-label="目标语言"><option value="zh">简体中文</option><option value="en">英语</option><option value="ja">日语</option><option value="zh-Hant">繁體中文</option><option value="ko">韩语</option><option value="fr">法语</option></select></div>
       <div class="result muted" role="status" aria-live="polite">正在准备翻译…</div>
       <details><summary>查看原文</summary><div class="original"></div></details>

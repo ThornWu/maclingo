@@ -31,6 +31,8 @@
       select { max-width:135px; background:transparent; border:1px solid #dce3df; border-radius:5px; padding:3px; }
       .result { font-size:16px; line-height:1.8; white-space:pre-wrap; overflow-wrap:anywhere; margin:15px 0; user-select:text; }
       .muted { font-size:13px; color:#637169; } .error { color:#a23f33; }
+      .speech { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; font-size:12px; }
+      button:disabled { opacity:.5; cursor:default; }
       details { border-top:1px solid #e6eae7; padding-top:9px; margin-bottom:12px; }
       summary { cursor:pointer; color:#637169; font-size:12px; } .original { font-size:12px; color:#637169; white-space:pre-wrap; overflow-wrap:anywhere; max-height:120px; overflow:auto; }
       footer { justify-content:space-between; } .note { font-size:11px; color:#637169; }
@@ -50,6 +52,7 @@
     card.innerHTML = `<header><svg class="mark" aria-hidden="true" width="24" height="24" viewBox="0 0 128 128"><rect x="4" y="4" width="120" height="120" rx="30" fill="#226b68"/><path d="M30 87V38l34 23 34-23v49" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 61v27" stroke="#a9dec8" stroke-width="8" stroke-linecap="round"/></svg><span class="brand">MacLingo · 麦译</span><button class="close" aria-label="关闭翻译" title="关闭（Esc）">×</button></header>
       <div class="languages"><select aria-label="原文语言"><option value="auto">自动识别</option><option value="en">英语</option><option value="zh">中文</option><option value="ja">日语</option><option value="ko">韩语</option><option value="fr">法语</option><option value="de">德语</option><option value="es">西班牙语</option></select><span>→</span><select aria-label="目标语言"><option value="zh">简体中文</option><option value="en">英语</option><option value="ja">日语</option><option value="zh-Hant">繁體中文</option><option value="ko">韩语</option><option value="fr">法语</option></select></div>
       <div class="result muted" role="status" aria-live="polite">正在准备翻译…</div>
+      <div class="speech" hidden><button class="speak" hidden disabled>朗读原文</button><span class="speech-status muted" role="status" aria-live="polite"></span></div>
       <details><summary>查看原文</summary><div class="original"></div></details>
       <footer><span class="note">本机翻译 · 不保存记录</span><button class="primary" hidden>重试</button><button class="copy" hidden>复制译文</button></footer>`;
     shadow.append(style, card);
@@ -57,9 +60,49 @@
     const result = card.querySelector('.result');
     const retry = card.querySelector('.primary');
     const copy = card.querySelector('.copy');
+    const speech = card.querySelector('.speech');
+    const speak = card.querySelector('.speak');
+    const speechStatus = card.querySelector('.speech-status');
     const [source, target] = card.querySelectorAll('select');
     card.querySelector('.original').textContent = text;
     let closed = false, revision = 0, translator, controller, output = '';
+    let spokenLanguage = '', utterance = null;
+    const stopSpeech = () => {
+      const wasSpeaking = utterance !== null;
+      utterance = null;
+      if (wasSpeaking) globalThis.speechSynthesis?.cancel();
+      speak.textContent = '朗读原文';
+    };
+    const findVoice = () => {
+      if (!spokenLanguage || !globalThis.speechSynthesis || !globalThis.SpeechSynthesisUtterance) return null;
+      const language = spokenLanguage.toLowerCase().replaceAll('_', '-');
+      const voices = globalThis.speechSynthesis.getVoices().filter(voice => voice.localService);
+      return voices.find(voice => voice.lang.toLowerCase().replaceAll('_', '-') === language)
+        || voices.find(voice => voice.lang.toLowerCase().split(/[-_]/)[0] === language.split('-')[0]);
+    };
+    const updateSpeech = () => {
+      if (closed) return;
+      const available = Boolean(findVoice());
+      if (!available) { stopSpeech(); speechStatus.textContent = ''; }
+      speech.hidden = speak.hidden = speak.disabled = !available;
+    };
+    globalThis.speechSynthesis?.addEventListener('voiceschanged', updateSpeech);
+    speak.onclick = () => {
+      if (utterance) { stopSpeech(); return; }
+      speechStatus.textContent = '';
+      const synth = globalThis.speechSynthesis;
+      const voice = findVoice();
+      if (!voice) { updateSpeech(); return; }
+      const current = new SpeechSynthesisUtterance(text);
+      current.voice = voice; current.lang = voice.lang;
+      current.onend = () => { if (utterance === current) { utterance = null; speak.textContent = '朗读原文'; } };
+      current.onerror = () => {
+        if (utterance !== current) return;
+        utterance = null; speak.textContent = '朗读原文'; speechStatus.textContent = '朗读失败，请重试。';
+      };
+      utterance = current; speak.textContent = '停止朗读';
+      try { synth.speak(current); } catch { current.onerror(); }
+    };
     const position = () => {
       const width = card.getBoundingClientRect().width;
       const height = card.getBoundingClientRect().height;
@@ -75,6 +118,8 @@
     dismiss = () => {
       if (closed) return;
       closed = true; revision++; controller?.abort(); translator?.destroy(); observer.disconnect();
+      stopSpeech();
+      globalThis.speechSynthesis?.removeEventListener('voiceschanged', updateSpeech);
       document.removeEventListener('pointerdown', outside, true); document.removeEventListener('keydown', escape, true);
       window.removeEventListener('resize', position);
       const focused = document.activeElement === host;
@@ -91,6 +136,7 @@
     };
     const run = async () => {
       const current = ++revision;
+      stopSpeech(); spokenLanguage = ''; updateSpeech(); speechStatus.textContent = '';
       controller?.abort(); translator?.destroy(); translator = null;
       controller = new AbortController();
       const requestController = controller;
@@ -101,7 +147,6 @@
       retry.hidden = true; copy.hidden = true; copy.textContent = '复制译文'; output = '';
       try {
         if (text.length > 10000) throw new Error('文字过长，请每次选择不超过 10,000 个字符。');
-        if (!globalThis.Translator) throw new Error('此浏览器或页面暂不支持本机翻译。请使用新版 Chrome，在 HTTPS 网页重试。');
         let language = source.value;
         if (language === 'auto') {
           const detection = await chrome.runtime.sendMessage({ type: 'maclingo:detect', text });
@@ -110,12 +155,20 @@
           if (!language) throw new Error('这段文字太短，无法可靠识别语言。请在上方选择原文语言。');
         }
         if (language === 'zh-CN') language = 'zh';
+        spokenLanguage = language; updateSpeech();
+        if (!globalThis.Translator) throw new Error('此浏览器或页面暂不支持本机翻译。请使用新版 Chrome，在 HTTPS 网页重试。');
         if (language === target.value) { output = text; }
         else {
           const options = { sourceLanguage: language, targetLanguage: target.value };
           const availability = await Translator.availability(options);
           if (!active()) return;
-          if (availability === 'unavailable') throw new Error('本机引擎暂不支持这组语言，请切换原文或目标语言。');
+          if (availability === 'unavailable') {
+            if (source.value !== 'auto') {
+              source.value = 'auto';
+              return run();
+            }
+            throw new Error('本机引擎暂不支持这组语言，请切换原文或目标语言。');
+          }
           result.textContent = availability === 'available' ? '正在翻译…' : '首次使用正在准备语言包…';
           const instance = await Translator.create({ ...options, signal, monitor(monitor) {
             monitor.addEventListener('downloadprogress', event => {
@@ -141,8 +194,21 @@
       }
       position();
     };
-    retry.onclick = run; source.onchange = run; target.onchange = run;
+    retry.onclick = run;
+    source.onchange = () => {
+      // Only explicit choices update the preference; automatic fallback is per card.
+      chrome.storage.local.set({ sourceLanguage: source.value }).catch(() => {});
+      run();
+    };
+    target.onchange = run;
     card.querySelector('.close').focus({ preventScroll: true });
-    run();
+    (async () => {
+      try {
+        const { sourceLanguage } = await chrome.storage.local.get('sourceLanguage');
+        if (closed || revision !== 0) return;
+        if (Array.from(source.options).some(option => option.value === sourceLanguage)) source.value = sourceLanguage;
+      } catch { /* A storage failure should not prevent translation. */ }
+      if (!closed && revision === 0) run();
+    })();
   }
 })();

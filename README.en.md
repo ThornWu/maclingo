@@ -13,7 +13,7 @@ MacLingo combines Mac and language; the Chinese name **麦译** (Mài Yì) pairs
 - Runs only when invoked; no automatic popups or clipboard monitoring.
 - Uses Chrome's on-device Translator API, without an API key.
 - Supports language selection, copying, original-text disclosure, and dark mode.
-- Requests only `contextMenus`, `activeTab`, and `scripting`; no persistent access to all sites.
+- Requests only `contextMenus`, `activeTab`, `scripting`, and `storage`; no persistent access to all sites.
 
 ## Install on Mac
 
@@ -26,7 +26,9 @@ Requires desktop **Chrome 138+** with a working Translator API.
 
 The extension is not yet listed in the Chrome Web Store. Keep the installation directory in place. After updating files, reload the extension and refresh the webpage.
 
-First use may require downloading language packs. Click the in-card start button if prompted. Translation runs on the device after the browser has prepared the models. Short selections may require manually choosing the source language.
+First use may require downloading language packs. Click the in-card start button if prompted. Translation runs on the device after the browser has prepared the models. Short selections may require manually choosing the source language. The last manually selected source language is saved locally. If that language pair is unavailable, the current card falls back to automatic detection without overwriting the saved preference.
+
+Click **朗读原文** to hear the original text using a local voice for its source language. Click again to stop. Closing the card or changing languages also stops speech. The read-aloud button appears only when a matching local voice is available; it does not use a remote voice.
 
 ## Compatibility
 

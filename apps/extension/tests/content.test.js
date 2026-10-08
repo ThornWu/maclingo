@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import { readFileSync } from 'node:fs';
 
-const code = readFileSync(new URL('../extension/content.js', import.meta.url), 'utf8');
+const code = readFileSync(new URL('../src/content.js', import.meta.url), 'utf8');
 const flush = () => new Promise(resolve => setImmediate(resolve));
 function harness({ saved, available = () => 'available', get, speech } = {}) {
   let listener, card;

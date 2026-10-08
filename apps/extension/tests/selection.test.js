@@ -6,7 +6,7 @@ const flush = () => new Promise(resolve => setImmediate(resolve));
 function harness() {
   const listeners = new Map(), shown = []; let change, scheduled;
   const document = { activeElement: null, addEventListener: (key, fn) => listeners.set(key, fn), removeEventListener: key => listeners.delete(key) };
-  vm.runInNewContext(readFileSync(new URL('../extension/selection.js', import.meta.url), 'utf8'), {
+  vm.runInNewContext(readFileSync(new URL('../src/selection.js', import.meta.url), 'utf8'), {
     document, window: { getSelection: () => ({ isCollapsed: false, toString: () => 'versatile' }) },
     chrome: { storage: { onChanged: { addListener: fn => change = fn }, local: { get: async () => ({}) } } },
     __maclingoShowSelection: text => shown.push(text), setTimeout: fn => scheduled = fn, clearTimeout: () => scheduled = null

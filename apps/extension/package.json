@@ -1,0 +1,12 @@
+{
+  "name": "@maclingo/extension",
+  "version": "0.1.5",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "check": "node --check src/background.js && node --check src/content.js && node --check src/help.js && node --check src/selection.js",
+    "package": "bash scripts/package.sh"
+  },
+  "license": "MIT"
+}

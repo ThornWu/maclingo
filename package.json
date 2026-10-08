@@ -4,14 +4,20 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test tests/*.test.js",
-    "check": "node --check extension/background.js && node --check extension/content.js && node --check extension/help.js && node --check extension/selection.js",
-    "package": "bash scripts/package.sh"
+    "test": "npm run test --workspace @maclingo/extension",
+    "check": "npm run check --workspace @maclingo/extension",
+    "package": "npm run package --workspace @maclingo/extension",
+    "build:macos": "bash apps/macos/scripts/build.sh",
+    "test:macos": "bash apps/macos/scripts/test.sh",
+    "package:macos": "bash apps/macos/scripts/package.sh"
   },
   "license": "MIT",
-  "description": "MacLingo 麦译 — a quiet, on-device Chrome translation extension for Mac",
+  "description": "MacLingo \u9ea6\u8bd1 \u2014 browser extension and native macOS app monorepo",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ThornWu/maclingo.git"
-  }
+    "url": "https://github.com/thornfe/maclingo.git"
+  },
+  "workspaces": [
+    "apps/extension"
+  ]
 }

@@ -14,7 +14,7 @@ function harness({ fail = false } = {}) {
     action: { setBadgeText: async args => calls.push(['badge', args]), setTitle: async args => calls.push(['title', args]) },
     i18n: { detectLanguage: (text, callback) => callback({ languages: [{ language: 'en', percentage: 99 }] }) }
   };
-  vm.runInNewContext(readFileSync(new URL('../extension/background.js', import.meta.url), 'utf8'), { chrome });
+  vm.runInNewContext(readFileSync(new URL('../src/background.js', import.meta.url), 'utf8'), { chrome });
   return { events, calls, chrome };
 }
 test('menu only appears for selected text on web pages', () => {

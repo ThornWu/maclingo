@@ -1,7 +1,9 @@
 // Run against an isolated agent-browser session, never your everyday browser.
-// NODE_PATH=/path/to/bundled/node_modules node tests/browser-check.cjs <cdp-url>
+// NODE_PATH=/path/to/bundled/node_modules node apps/extension/tests/browser-check.cjs <cdp-url>
 const { chromium } = require('playwright');
 const fs = require('node:fs');
+const path = require('node:path');
+const outputDir = path.resolve(__dirname, '../../../dist');
 const assert = require('node:assert/strict');
 
 (async () => {
@@ -11,7 +13,7 @@ const assert = require('node:assert/strict');
   const page = pages.find(page => page.url() === 'https://example.com/');
   assert(page, 'Open https://example.com/ in the test session first');
   await page.reload();
-  fs.mkdirSync('dist', { recursive: true });
+  fs.mkdirSync(outputDir, { recursive: true });
   const cdp = await page.context().newCDPSession(page);
   const { frameTree } = await cdp.send('Page.getFrameTree');
   const { executionContextId } = await cdp.send('Page.createIsolatedWorld', { frameId: frameTree.frame.id, worldName: 'maclingo-ui-test' });
@@ -36,7 +38,7 @@ const assert = require('node:assert/strict');
     const attach = Element.prototype.attachShadow;
     Element.prototype.attachShadow = function(options) { const root = attach.call(this, options); testRoot = root; return root; };
   `);
-  await evaluate(fs.readFileSync('extension/content.js', 'utf8'));
+  await evaluate(fs.readFileSync(path.resolve(__dirname, '../src/content.js'), 'utf8'));
   async function show(text) {
     await evaluate(`testListener({ type: 'maclingo:show', text: ${JSON.stringify(text)} }); new Promise(resolve => setTimeout(resolve, 80))`);
   }
@@ -58,9 +60,9 @@ const assert = require('node:assert/strict');
   await show('x'.repeat(10001));
   assert.match(await evaluate(`testRoot.querySelector('.result').textContent`), /文字过长/);
   await show('The quiet joy of reading.');
-  await page.screenshot({ path: 'dist/card-preview.png' });
+  await page.screenshot({ path: path.join(outputDir, 'card-preview.png') });
   await page.emulateMedia({ colorScheme: 'dark' });
-  await page.screenshot({ path: 'dist/card-preview-dark.png' });
+  await page.screenshot({ path: path.join(outputDir, 'card-preview-dark.png') });
   await page.emulateMedia({ colorScheme: 'light' });
   console.log('PASS: escaping, stale responses, Esc, outside click, activation retry, length limit, light/dark render');
   // Probe the actual browser engine separately from the mocked interaction tests.
@@ -77,7 +79,7 @@ const assert = require('node:assert/strict');
     }, 100);
   })`);
   console.log('Real engine card:', await evaluate(`testRoot.querySelector('.result').textContent`));
-  await page.screenshot({ path: 'dist/real-engine.png' });
+  await page.screenshot({ path: path.join(outputDir, 'real-engine.png') });
   await cdp.detach();
   // Disconnect by exiting the test process; do not close any browser or pages.
   process.exit(0);

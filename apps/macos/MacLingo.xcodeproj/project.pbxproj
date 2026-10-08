@@ -1,0 +1,43 @@
+// !$*UTF8*$!
+{ archiveVersion = 1; classes = {}; objectVersion = 56; objects = {
+DBE6EADB700852BB672CD0D1 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MacLingo/App/AppController.swift"; sourceTree = "<group>"; };
+A22EDD4A98E22938228FF002 = { isa = PBXBuildFile; fileRef = DBE6EADB700852BB672CD0D1; };
+D6F2C646A641A4A9C68E952C = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MacLingo/App/GlobalShortcut.swift"; sourceTree = "<group>"; };
+78B8B2B086560C2F33BF832A = { isa = PBXBuildFile; fileRef = D6F2C646A641A4A9C68E952C; };
+A5F0E01745ACC56E5B35C7B0 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MacLingo/App/MacLingoApp.swift"; sourceTree = "<group>"; };
+06B13D45BDDA2C7AB6EA98A4 = { isa = PBXBuildFile; fileRef = A5F0E01745ACC56E5B35C7B0; };
+3A96EAE22959A67D4C5342B8 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MacLingo/App/Preferences.swift"; sourceTree = "<group>"; };
+0EE2B56015C2DDE8B22CD8C7 = { isa = PBXBuildFile; fileRef = 3A96EAE22959A67D4C5342B8; };
+52F5A447E33E44115B2C8E69 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MacLingo/Core/PanelPlacement.swift"; sourceTree = "<group>"; };
+2C5D1CB8C1BA9221766B7D75 = { isa = PBXBuildFile; fileRef = 52F5A447E33E44115B2C8E69; };
+08204707B4D3A91D9ABBADC7 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MacLingo/Core/TranslationRequest.swift"; sourceTree = "<group>"; };
+6E20ED0DEAA5A5E0204D9A7A = { isa = PBXBuildFile; fileRef = 08204707B4D3A91D9ABBADC7; };
+332C69BDF6BACA6699590AC2 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MacLingo/Selection/SelectionReader.swift"; sourceTree = "<group>"; };
+821E885707C282C63B0C4ACE = { isa = PBXBuildFile; fileRef = 332C69BDF6BACA6699590AC2; };
+37DFD3BE8826545DF139C359 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MacLingo/Translation/SpeechService.swift"; sourceTree = "<group>"; };
+FA206544B34A49F604AEA165 = { isa = PBXBuildFile; fileRef = 37DFD3BE8826545DF139C359; };
+C28C87E45418410A78F34A01 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MacLingo/Translation/TranslationModel.swift"; sourceTree = "<group>"; };
+34B44A112F2093B14CAF3C94 = { isa = PBXBuildFile; fileRef = C28C87E45418410A78F34A01; };
+268792E240C5E81EFC38C363 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MacLingo/UI/SettingsView.swift"; sourceTree = "<group>"; };
+67F4B507484017DC33468030 = { isa = PBXBuildFile; fileRef = 268792E240C5E81EFC38C363; };
+EE9C09A5C8CFF3D12ED22F50 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MacLingo/UI/TranslationView.swift"; sourceTree = "<group>"; };
+D371EF8B99CC31B14AF72551 = { isa = PBXBuildFile; fileRef = EE9C09A5C8CFF3D12ED22F50; };
+04A9FBA2F0C404565E6B9C8A = { isa = PBXFileReference; lastKnownFileType = image.svg; path = "../../shared/assets/icon.svg"; sourceTree = "<group>"; };
+D19995B5E78F161A60959FDB = { isa = PBXBuildFile; fileRef = 04A9FBA2F0C404565E6B9C8A; };
+9CEEC13202AFBF12EE3ABB99 = { isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = MacLingo/Resources/Info.plist; sourceTree = "<group>"; };
+A8792157CB4F27FB949C035F = { isa = PBXFileReference; explicitFileType = wrapper.application; path = MacLingo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+0D6E4079E36703EBD37C0072 = { isa = PBXGroup; children = (E17E80AD8E2103CF3FC3FD96, 0A3E27B8CA818264D75C8D81); sourceTree = "<group>"; };
+E17E80AD8E2103CF3FC3FD96 = { isa = PBXGroup; name = MacLingo; children = (DBE6EADB700852BB672CD0D1, D6F2C646A641A4A9C68E952C, A5F0E01745ACC56E5B35C7B0, 3A96EAE22959A67D4C5342B8, 52F5A447E33E44115B2C8E69, 08204707B4D3A91D9ABBADC7, 332C69BDF6BACA6699590AC2, 37DFD3BE8826545DF139C359, C28C87E45418410A78F34A01, 268792E240C5E81EFC38C363, EE9C09A5C8CFF3D12ED22F50, 9CEEC13202AFBF12EE3ABB99, 04A9FBA2F0C404565E6B9C8A); sourceTree = "<group>"; };
+0A3E27B8CA818264D75C8D81 = { isa = PBXGroup; name = Products; children = (A8792157CB4F27FB949C035F); sourceTree = "<group>"; };
+878A52FC5FF6A57D50B7B870 = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A22EDD4A98E22938228FF002, 78B8B2B086560C2F33BF832A, 06B13D45BDDA2C7AB6EA98A4, 0EE2B56015C2DDE8B22CD8C7, 2C5D1CB8C1BA9221766B7D75, 6E20ED0DEAA5A5E0204D9A7A, 821E885707C282C63B0C4ACE, FA206544B34A49F604AEA165, 34B44A112F2093B14CAF3C94, 67F4B507484017DC33468030, D371EF8B99CC31B14AF72551); runOnlyForDeploymentPostprocessing = 0; };
+6EEB55F76600D4AD08BE72AD = { isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (D19995B5E78F161A60959FDB); runOnlyForDeploymentPostprocessing = 0; };
+E2AA269EB967A8853A258BFA = { isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+34A04005BCAF206EEC990BD9 = { isa = PBXNativeTarget; buildConfigurationList = A1C421DAD96DFF096646A753; buildPhases = (878A52FC5FF6A57D50B7B870, E2AA269EB967A8853A258BFA, 6EEB55F76600D4AD08BE72AD); buildRules = (); dependencies = (); name = MacLingo; productName = MacLingo; productReference = A8792157CB4F27FB949C035F; productType = "com.apple.product-type.application"; };
+244210E48437B6556980A702 = { isa = PBXProject; attributes = { LastUpgradeCheck = 2700; }; buildConfigurationList = 11A12EB8C262CEA548DA2B5B; compatibilityVersion = "Xcode 14.0"; developmentRegion = zh_CN; hasScannedForEncodings = 0; knownRegions = (zh_CN, en, Base); mainGroup = 0D6E4079E36703EBD37C0072; productRefGroup = 0A3E27B8CA818264D75C8D81; projectDirPath = ""; projectRoot = ""; targets = (34A04005BCAF206EEC990BD9); };
+73EBF6644258C120893E685D = { isa = XCBuildConfiguration; buildSettings = { CLANG_ENABLE_MODULES = YES; MACOSX_DEPLOYMENT_TARGET = 15.0; SDKROOT = macosx; SWIFT_VERSION = 5.0; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; DEBUG_INFORMATION_FORMAT = dwarf; }; name = Debug; };
+0B0C687DF8B6B8DC790B519C = { isa = XCBuildConfiguration; buildSettings = { CLANG_ENABLE_MODULES = YES; MACOSX_DEPLOYMENT_TARGET = 15.0; SDKROOT = macosx; SWIFT_VERSION = 5.0; SWIFT_OPTIMIZATION_LEVEL = "-O"; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; }; name = Release; };
+11A12EB8C262CEA548DA2B5B = { isa = XCConfigurationList; buildConfigurations = (73EBF6644258C120893E685D, 0B0C687DF8B6B8DC790B519C); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+6C7EFF6369083C8E1F2B1994 = { isa = XCBuildConfiguration; buildSettings = { PRODUCT_BUNDLE_IDENTIFIER = thorn.maclingo; PRODUCT_NAME = "$(TARGET_NAME)"; INFOPLIST_FILE = MacLingo/Resources/Info.plist; GENERATE_INFOPLIST_FILE = NO; CODE_SIGN_IDENTITY = "-"; CODE_SIGN_STYLE = Manual; ENABLE_APP_SANDBOX = NO; ENABLE_HARDENED_RUNTIME = NO; SWIFT_EMIT_LOC_STRINGS = YES; }; name = Debug; };
+DD75E2CB1C510A828AC72D96 = { isa = XCBuildConfiguration; buildSettings = { PRODUCT_BUNDLE_IDENTIFIER = thorn.maclingo; PRODUCT_NAME = "$(TARGET_NAME)"; INFOPLIST_FILE = MacLingo/Resources/Info.plist; GENERATE_INFOPLIST_FILE = NO; CODE_SIGN_IDENTITY = "-"; CODE_SIGN_STYLE = Manual; ENABLE_APP_SANDBOX = NO; ENABLE_HARDENED_RUNTIME = NO; SWIFT_EMIT_LOC_STRINGS = YES; }; name = Release; };
+A1C421DAD96DFF096646A753 = { isa = XCConfigurationList; buildConfigurations = (6C7EFF6369083C8E1F2B1994, DD75E2CB1C510A828AC72D96); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+}; rootObject = 244210E48437B6556980A702; }

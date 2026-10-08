@@ -26,7 +26,7 @@ npm run test:macos
 
 通过 Accessibility 读取当前焦点元素的选中文字和可用的选区位置，先取词再打开窗口；拒绝安全密码输入框。取词接口有超时，应用不支持选区或权限缺失时显示明确提示。只有点击“翻译剪贴板”才读取剪贴板原文，不将旧剪贴板自动视为当前选区。
 
-翻译和朗读在本机执行；语言包首次下载由系统管理。应用不提供 OCR、自动划词监听、历史记录、云端接口或自动更新。与扩展共享 `../../shared/assets/icon.svg` 品牌资源，资源打包进应用；界面为原生控件。
+翻译和朗读在本机执行；语言包首次下载由系统管理。应用不提供 OCR、自动划词监听、历史记录、云端接口或自动更新。与扩展共享 `../../shared/assets/icon.svg` 品牌资源，转换为 `AppIcon.icns` 打包进应用；界面为原生控件。
 
 ## 交付和验证
 
@@ -52,14 +52,16 @@ npm run test:macos
 npm run package:macos
 ```
 
-此命令构建 Release、使用固定证书签名并校验，生成 `dist/MacLingo-0.1.0-macos-arm64.zip` 和 `.sha256`。普通 `npm run build:macos` 仍用于 ad-hoc Debug 开发。发布标签按平台区分：原生首版 `macos-v0.1.0-preview.1`，扩展保持 `0.1.5`。
+此命令构建 Release、使用固定证书签名并校验，生成 `dist/MacLingo-0.1.1-macos-arm64.zip` 和 `.sha256`。普通 `npm run build:macos` 仍用于 ad-hoc Debug 开发。发布标签按平台区分：原生当前版本 `macos-v0.1.1-preview.1`，扩展保持 `0.1.5`。
 
-打包脚本默认使用仓库外的 `~/Library/Application Support/MacLingoSigning/thorn.maclingo.keychain-db`；可通过 `MACLINGO_SIGNING_ROOT`、`MACLINGO_SIGNING_KEYCHAIN` 和 `MACLINGO_SIGNING_IDENTITY` 指定已有签名环境。钥匙串需先解锁。没有签名身份时脚本失败，不会静默退回临时签名。
+打包脚本默认使用仓库外的 `~/Library/Application Support/MacLingoSigning/thorn.maclingo-release.keychain-db`；可通过 `MACLINGO_SIGNING_ROOT`、`MACLINGO_SIGNING_KEYCHAIN` 和 `MACLINGO_SIGNING_IDENTITY` 指定已有签名环境。默认从同目录的 `release-keychain-password` 读取密码，在签名前自动解锁；可用 `MACLINGO_SIGNING_PASSWORD_FILE` 指定其他密码文件。若没有密码文件，需预先解锁钥匙串。没有签名身份时脚本失败，不会静默退回临时签名。
 
-维护者应安全备份该目录的加密 `identity.p12` 与密码文件，并限制访问。私钥、钥匙串和密码禁止提交或包含在安装包中。构建脚本不会生成或替换证书，也不会改变系统信任策略。
+维护者应安全备份该目录的加密 `identity.p12` 与密码文件（当前备份密码保存在 `keychain-password`，与 `release-keychain-password` 一致），并限制访问。私钥、钥匙串和密码禁止提交或包含在安装包中。构建脚本不会生成或替换证书，也不会改变系统信任策略。
 
 扩展与原生端并非完全同功能：扩展默认快捷键为 Control + Shift + M，支持可选自动划词和朗读原文；原生默认 Control + Option + M，主动取词并朗读译文。两端分别管理偏好。
 
 ### 预览版分发验证（2026-10-08）
 
 Release 编译、21 项扩展测试、6 项原生测试及签名校验通过。修改临时副本的构建号并重签后，仍满足原版本的 designated requirement（Bundle ID + 固定证书指纹），不再绑定单次构建的 CDHash。这是签名身份升级验证，不等同于跨升级的系统辅助功能授权实测。旧开发版的真实全局按键已由用户验收；新 Bundle ID 的首次授权及下载后 Gatekeeper 放行尚未在全新用户环境实测。
+
+应用图标由共享 SVG 生成，包含 16–1024 像素的标准和 Retina 尺寸。修改 SVG 后，安装可选开发工具 `sharp`，执行 `node apps/macos/scripts/icons.cjs`，提交生成的 `MacLingo/Resources/AppIcon.icns`。常规构建不依赖 sharp；发布脚本检查图标声明和资源存在。

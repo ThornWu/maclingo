@@ -4,12 +4,19 @@ APP_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 REPO_ROOT="$(cd "$APP_ROOT/../.." && pwd)"
 # Keep the private key and encrypted backup outside this repository.
 SIGNING_ROOT="${MACLINGO_SIGNING_ROOT:-$HOME/Library/Application Support/MacLingoSigning}"
-SIGNING_KEYCHAIN="${MACLINGO_SIGNING_KEYCHAIN:-$SIGNING_ROOT/thorn.maclingo.keychain-db}"
+SIGNING_KEYCHAIN="${MACLINGO_SIGNING_KEYCHAIN:-$SIGNING_ROOT/thorn.maclingo-release.keychain-db}"
 SIGNING_IDENTITY="${MACLINGO_SIGNING_IDENTITY:-thorn.maclingo}"
 [[ -f "$SIGNING_KEYCHAIN" ]] || { echo "Missing signing keychain: $SIGNING_KEYCHAIN" >&2; exit 1; }
 CONFIGURATION=Release bash "$APP_ROOT/scripts/build.sh"
 APP="$APP_ROOT/.build/xcode/Build/Products/Release/MacLingo.app"
+ICON=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIconFile' "$APP/Contents/Info.plist")
+[[ -s "$APP/Contents/Resources/$ICON" ]] || { echo "Missing application icon: $ICON" >&2; exit 1; }
 cp "$REPO_ROOT/LICENSE" "$APP/Contents/Resources/LICENSE"
+# Unlock immediately before signing; do not print or commit the password.
+PASSWORD_FILE="${MACLINGO_SIGNING_PASSWORD_FILE:-$SIGNING_ROOT/release-keychain-password}"
+if [[ -f "$PASSWORD_FILE" ]]; then
+  security unlock-keychain -p "$(cat "$PASSWORD_FILE")" "$SIGNING_KEYCHAIN"
+fi
 codesign --force --sign "$SIGNING_IDENTITY" --keychain "$SIGNING_KEYCHAIN" --timestamp=none "$APP"
 codesign --verify --deep --strict --verbose=2 "$APP"
 VERSION=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP/Contents/Info.plist")

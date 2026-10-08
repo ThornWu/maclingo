@@ -22,7 +22,7 @@ C28C87E45418410A78F34A01 = { isa = PBXFileReference; lastKnownFileType = sourcec
 67F4B507484017DC33468030 = { isa = PBXBuildFile; fileRef = 268792E240C5E81EFC38C363; };
 EE9C09A5C8CFF3D12ED22F50 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MacLingo/UI/TranslationView.swift"; sourceTree = "<group>"; };
 D371EF8B99CC31B14AF72551 = { isa = PBXBuildFile; fileRef = EE9C09A5C8CFF3D12ED22F50; };
-04A9FBA2F0C404565E6B9C8A = { isa = PBXFileReference; lastKnownFileType = image.svg; path = "../../shared/assets/icon.svg"; sourceTree = "<group>"; };
+04A9FBA2F0C404565E6B9C8A = { isa = PBXFileReference; lastKnownFileType = image.icns; path = "MacLingo/Resources/AppIcon.icns"; sourceTree = "<group>"; };
 D19995B5E78F161A60959FDB = { isa = PBXBuildFile; fileRef = 04A9FBA2F0C404565E6B9C8A; };
 9CEEC13202AFBF12EE3ABB99 = { isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = MacLingo/Resources/Info.plist; sourceTree = "<group>"; };
 A8792157CB4F27FB949C035F = { isa = PBXFileReference; explicitFileType = wrapper.application; path = MacLingo.app; sourceTree = BUILT_PRODUCTS_DIR; };

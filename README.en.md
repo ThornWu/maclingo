@@ -32,7 +32,7 @@ The SwiftUI / AppKit client targets Apple Silicon and macOS 15+. It runs in the 
 
 Translation uses Apple Translation; first use may ask to download language packs. Language and selection support depend on the system and source app. Images and scanned PDFs are not supported. See the [native client guide](apps/macos/README.md) for setup, building, and acceptance checks. The preview uses a persistent self-signed certificate named `thorn.maclingo` and is not Apple-notarized.
 
-1. Download `MacLingo-0.1.0-macos-arm64.zip` from the [native preview release](https://github.com/thornfe/maclingo/releases/tag/macos-v0.1.0-preview.1), unzip, and move `MacLingo.app` to Applications.
+1. Download `MacLingo-0.1.1-macos-arm64.zip` from the [native preview release](https://github.com/thornfe/maclingo/releases/tag/macos-v0.1.1-preview.1), unzip, and move `MacLingo.app` to Applications.
 2. If macOS blocks the first launch, open **System Settings → Privacy & Security → Open Anyway** and follow the system prompts. No additional certificate needs to be installed or trusted.
 3. Use the app settings to open system settings and grant Accessibility access, then select text and press **Control + Option + M**.
 

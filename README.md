@@ -32,7 +32,7 @@
 
 翻译使用 Apple Translation，首次使用可能需要允许下载语言包。支持的语言和可取词应用取决于系统与应用；图片和扫描版 PDF 暂不支持。设置、构建及验收说明见 [原生客户端说明](apps/macos/README.md)。预览版采用固定自签名证书 `thorn.maclingo`，未经过 Apple 公证。
 
-1. 从 [原生预览版](https://github.com/thornfe/maclingo/releases/tag/macos-v0.1.0-preview.1) 下载 `MacLingo-0.1.0-macos-arm64.zip`，解压并将 `MacLingo.app` 放入「应用程序」。
+1. 从 [原生预览版](https://github.com/thornfe/maclingo/releases/tag/macos-v0.1.1-preview.1) 下载 `MacLingo-0.1.1-macos-arm64.zip`，解压并将 `MacLingo.app` 放入「应用程序」。
 2. 首次打开若被拦截，进入「系统设置 → 隐私与安全性」，为刚打开的麦译选择「仍要打开」，按系统提示确认。无需安装或信任额外证书。
 3. 在麦译设置中点击「打开系统设置」，开启辅助功能权限；选中文字后按 **Control + Option + M**。
 
